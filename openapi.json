@@ -10,6 +10,150 @@
     }
   ],
   "paths": {
-    ...
+    "/analyze": {
+      "post": {
+        "summary": "Perform logical analysis like the Great Sage.",
+        "operationId": "analyzeLogic",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["input"],
+                "properties": {
+                  "input": {
+                    "type": "string",
+                    "description": "A question, situation, or thought to analyze."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Result of the analysis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["result"],
+                  "properties": {
+                    "result": {
+                      "type": "string",
+                      "description": "Logical assessment or suggestion."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/skill": {
+      "post": {
+        "summary": "Use an active skill.",
+        "operationId": "useSkill",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the skill"
+                  },
+                  "target": {
+                    "type": "string",
+                    "description": "Target or object of the skill"
+                  },
+                  "context": {
+                    "type": "string",
+                    "description": "Background or situation for usage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Result of the skill usage",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["effect"],
+                  "properties": {
+                    "effect": {
+                      "type": "string",
+                      "description": "Narrative result of the skill."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/skill/devour": {
+      "post": {
+        "summary": "Execute Devour and auto-process learnable skills.",
+        "operationId": "devourSkill",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["target"],
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "Object or entity to devour"
+                  },
+                  "context": {
+                    "type": "string",
+                    "description": "Optional background context"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Result of skill processing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["learned_skills", "summary"],
+                  "properties": {
+                    "learned_skills": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "List of new or combined skills"
+                    },
+                    "summary": {
+                      "type": "string",
+                      "description": "Great Sage commentary and decision"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
