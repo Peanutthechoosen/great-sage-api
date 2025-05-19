@@ -1,153 +1,172 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Great Sage and Skill System",
-    "version": "1.0.0"
+    "title": "Great Sage Memory API",
+    "version": "1.0.0",
+    "description": "Handles dynamic knowledge storage, skill combinations, and strategic suggestions."
   },
   "servers": [
     {
-      "url": "https://peanutthechoosen.github.io/great-sage-api"
+      "url": "https://example.invalid"
     }
   ],
   "paths": {
-    "/analyze": {
-      "post": {
-        "summary": "Perform logical analysis like the Great Sage.",
-        "operationId": "analyzeLogic",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["input"],
-                "properties": {
-                  "input": {
-                    "type": "string",
-                    "description": "A question, situation, or thought to analyze."
-                  }
-                }
-              }
-            }
+    "/memory/get": {
+      "get": {
+        "operationId": "getMemory",
+        "summary": "Liest gespeicherte Skills, Logs oder Kombinationen aus dem Memory.",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pfad zur Datei, z. B. 'skills/acid_blob.json'"
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "Result of the analysis",
+            "description": "Inhalt erfolgreich gelesen",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["result"],
                   "properties": {
-                    "result": {
+                    "path": {
                       "type": "string",
-                      "description": "Logical assessment or suggestion."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/skill": {
-      "post": {
-        "summary": "Use an active skill.",
-        "operationId": "useSkill",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["name"],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "Name of the skill"
-                  },
-                  "target": {
-                    "type": "string",
-                    "description": "Target or object of the skill"
-                  },
-                  "context": {
-                    "type": "string",
-                    "description": "Background or situation for usage"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Result of the skill usage",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["effect"],
-                  "properties": {
-                    "effect": {
-                      "type": "string",
-                      "description": "Narrative result of the skill."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/skill/devour": {
-      "post": {
-        "summary": "Execute Devour and auto-process learnable skills.",
-        "operationId": "devourSkill",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["target"],
-                "properties": {
-                  "target": {
-                    "type": "string",
-                    "description": "Object or entity to devour"
-                  },
-                  "context": {
-                    "type": "string",
-                    "description": "Optional background context"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Result of skill processing",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["learned_skills", "summary"],
-                  "properties": {
-                    "learned_skills": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "List of new or combined skills"
+                      "description": "Zurückgegebener Pfad"
                     },
-                    "summary": {
-                      "type": "string",
-                      "description": "Great Sage commentary and decision"
+                    "content": {
+                      "type": "object",
+                      "description": "Dateiinhalt als JSON-Objekt"
                     }
+                  },
+                  "required": ["path", "content"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/memory/update": {
+      "post": {
+        "operationId": "updateMemory",
+        "summary": "Speichert einen neuen Skill, Log oder eine Kombination.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "description": "Pfad zur Datei, z. B. 'logs/analysis_2025-05-19.json'"
+                  },
+                  "content": {
+                    "type": "object",
+                    "description": "Inhalt, der gespeichert werden soll"
                   }
+                },
+                "required": ["path", "content"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Eintrag erfolgreich gespeichert"
+          }
+        }
+      }
+    },
+    "/combine/skills": {
+      "post": {
+        "operationId": "combineSkills",
+        "summary": "Kombiniert zwei oder mehr Skills zu einer neuen Fähigkeit.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "skills": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Liste von Skill-Dateipfaden, z. B. ['skills/acid_blob.json', 'skills/shadow_bind.json']"
+                  }
+                },
+                "required": ["skills"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Neue kombinierte Fähigkeit wurde erzeugt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "combinedSkillPath": {
+                      "type": "string",
+                      "description": "Pfad zur neu erzeugten Kombination, z. B. 'combinations/acid_blob+shadow_bind.json'"
+                    },
+                    "combinedContent": {
+                      "type": "object",
+                      "description": "Inhalt der neuen kombinierten Fähigkeit"
+                    }
+                  },
+                  "required": ["combinedSkillPath", "combinedContent"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analyze/context": {
+      "post": {
+        "operationId": "analyzeContext",
+        "summary": "Gibt strategische Empfehlungen auf Basis gespeicherter Informationen.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "context": {
+                    "type": "string",
+                    "description": "Situationsbeschreibung, z. B. eine taktische Szene oder ein Log-Eintrag"
+                  }
+                },
+                "required": ["context"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Strategische Empfehlung erstellt",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "recommendation": {
+                      "type": "string",
+                      "description": "Empfohlene Vorgehensweise oder Skill-Nutzung"
+                    }
+                  },
+                  "required": ["recommendation"]
                 }
               }
             }
