@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Great Sage Abilities",
+  "name_for_model": "great_sage",
+  "description_for_human": "Simuliert taktische Analysen und Fähigkeitseinsatz wie im Slime-Universum.",
+  "description_for_model": "Simulates the Great Sage from the Slime universe, enabling skill analysis, devouring, and logic suggestions.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://example.com/openapi.json"
+  },
+  "logo_url": "https://example.com/logo.png",
+  "contact_email": "support@example.com",
+  "legal_info_url": "https://example.com/legal"
+}
